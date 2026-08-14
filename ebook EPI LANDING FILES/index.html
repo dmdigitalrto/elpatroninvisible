@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Patrón Invisible — Las personas deciden si le gustas antes de que hables</title>
+<meta name="description" content="Un ebook directo, sin rodeos, sobre qué proyectas sin darte cuenta — y por qué eso decide cómo te perciben y te tratan los demás.">
+
+<!-- Open Graph: importante para que el link se vea bien cuando Meta lo previsualiza en el anuncio -->
+<meta property="og:title" content="El Patrón Invisible — Deciden si les gustas antes de que hables">
+<meta property="og:description" content="No es suerte, ni tu apariencia. Es algo que proyectas sin saberlo.">
+<meta property="og:type" content="website">
+<!-- <meta property="og:image" content= el-patron-invisible-portada
+
+<!-- ============================================================
+     META PIXEL — reemplaza TU_PIXEL_ID por el real.
+     Este base code va SIEMPRE en el <head>, lo antes posible.
+     ============================================================ -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'TU_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+
+<!-- Google Fonts: una sola tipografía de impacto para titulares + una legible para cuerpo.
+     Si quieres cero dependencias externas, borra este link y usa la pila de fuentes del sistema
+     que ya está puesta como fallback en el CSS. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --negro: #0a0a0a;
+    --negro-suave: #161616;
+    --rojo: #e10600;
+    --rojo-hover: #ff2419;
+    --blanco: #f5f5f5;
+    --gris: #9a9a9a;
+    --max-width: 680px; /* landing angosta a propósito: menos ancho = menos distracción visual, más foco en el copy */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--negro);
+    color: var(--blanco);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, .impacto {
+    font-family: 'Bebas Neue', 'Inter', sans-serif;
+    font-weight: 400; /* Bebas Neue solo tiene un peso, ya es bold por diseño */
+    line-height: 1.05;
+    letter-spacing: 0.5px; /* esta fuente es angosta por naturaleza, necesita un poco de aire entre letras, no menos */
+    text-transform: uppercase;
+  }
+
+  .contenedor {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 56px 0; }
+
+  /* ---------- BARRA DE URGENCIA (arriba de todo) ---------- */
+  .barra-urgencia {
+    background: var(--rojo);
+    color: var(--blanco);
+    text-align: center;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 10px 16px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero { padding-top: 48px; text-align: center; }
+  .hero h1 {
+    font-size: clamp(40px, 8vw, 58px); /* Bebas Neue es angosta, se puede ir más grande sin romper el layout */
+    margin-bottom: 18px;
+  }
+  .hero h1 span { color: var(--rojo); }
+  .hero .sub {
+    font-size: 18px;
+    color: var(--gris);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .hero img {
+    max-width: 260px;
+    width: 100%;
+    margin: 32px auto 0;
+    display: block;
+    filter: drop-shadow(0 20px 40px rgba(225,6,0,0.25));
+  }
+
+  /* ---------- BOTÓN CTA (un solo estilo, repetido siempre igual = KISS) ---------- */
+  .cta {
+    display: inline-block;
+    background: var(--rojo);
+    color: var(--blanco);
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 17px;
+    padding: 18px 32px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background 0.15s ease, transform 0.1s ease;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  .cta:hover { background: var(--rojo-hover); transform: translateY(-1px); }
+  .cta-wrap { text-align: center; margin-top: 8px; }
+  .cta-nota {
+    font-size: 13px;
+    color: var(--gris);
+    margin-top: 10px;
+  }
+
+  /* ---------- AGITACIÓN / PROBLEMA ---------- */
+  .problema { background: var(--negro-suave); }
+  .problema h2 { font-size: 34px; margin-bottom: 20px; }
+  .lista-dolor { list-style: none; margin: 24px 0; }
+  .lista-dolor li {
+    padding: 10px 0 10px 28px;
+    position: relative;
+    color: var(--blanco);
+    border-bottom: 1px solid #262626;
+  }
+  .lista-dolor li::before {
+    content: "—";
+    color: var(--rojo);
+    position: absolute;
+    left: 0;
+    font-weight: 800;
+  }
+
+  /* ---------- MECANISMO (autoridad integrada, sin sección aparte) ---------- */
+  .mecanismo h2 { font-size: 34px; margin-bottom: 20px; }
+  .mecanismo p { margin-bottom: 16px; color: #d8d8d8; }
+  .mecanismo strong { color: var(--blanco); }
+  .credibilidad {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--rojo);
+    font-weight: 800;
+    border: 1px solid var(--rojo);
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+
+  /* ---------- QUÉ INCLUYE ---------- */
+  .incluye { background: var(--negro-suave); }
+  .incluye h2 { font-size: 32px; margin-bottom: 24px; }
+  .check-list { list-style: none; }
+  .check-list li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    align-items: flex-start;
+  }
+  .check-list svg { flex-shrink: 0; margin-top: 3px; }
+
+  /* ---------- NO ES PARA TI ---------- */
+  .no-es-para-ti h2 { font-size: 32px; margin-bottom: 20px; }
+  .lista-descarte { list-style: none; margin: 24px 0; }
+  .lista-descarte li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    color: #c9c9c9;
+    border-bottom: 1px solid #262626;
+  }
+  .lista-descarte li::before {
+    content: "✕";
+    color: var(--rojo);
+    position: absolute;
+    left: 0;
+    font-weight: 800;
+  }
+  .no-es-para-ti .remate {
+    margin-top: 20px;
+    color: var(--blanco);
+    font-weight: 600;
+  }
+
+  /* ---------- PRUEBA SOCIAL ---------- */
+  .testimonios { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+  .testimonio {
+    background: var(--negro-suave);
+    border-left: 3px solid var(--rojo);
+    padding: 16px 18px;
+    font-size: 15px;
+    color: #dedede;
+  }
+  .testimonio span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--gris);
+  }
+
+  /* ---------- OFERTA / PRECIO ---------- */
+  .oferta {
+    background: var(--negro-suave);
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .oferta h2 { font-size: 30px; margin-bottom: 20px; }
+  .tabla-valor { text-align: left; margin: 0 auto 24px; max-width: 360px; }
+  .tabla-valor div {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #333;
+    font-size: 14px;
+    color: var(--gris);
+  }
+  .precio-final {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--rojo);
+    margin: 12px 0 4px;
+    font-family: 'Archivo Black', sans-serif;
+  }
+  .precio-tachado {
+    text-decoration: line-through;
+    color: var(--gris);
+    font-size: 16px;
+  }
+
+  /* ---------- GARANTÍA ---------- */
+  .garantia {
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .garantia .sello {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  /* ---------- FAQ (acordeón nativo, sin JS) ---------- */
+  .faq details {
+    border-bottom: 1px solid #262626;
+    padding: 16px 0;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+";
+    color: var(--rojo);
+    font-size: 22px;
+    margin-left: 12px;
+  }
+  .faq details[open] summary::after { content: "–"; }
+  .faq p {
+    margin-top: 10px;
+    color: var(--gris);
+    font-size: 15px;
+  }
+
+  /* ---------- CIERRE ---------- */
+  .cierre {
+    text-align: center;
+    background: var(--negro-suave);
+  }
+  .cierre h2 { font-size: 32px; margin-bottom: 24px; }
+
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 12px;
+    color: #555;
+  }
+  footer a { color: #777; }
+
+  /* ---------- CTA FLOTANTE MÓVIL ---------- */
+  .cta-flotante {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--negro);
+    border-top: 1px solid #2a2a2a;
+    padding: 12px 16px;
+    display: none;
+    z-index: 999;
+  }
+  .cta-flotante.visible { display: block; }
+  .cta-flotante .cta { width: 100%; max-width: none; padding: 14px; font-size: 15px; }
+
+  @media (max-width: 480px) {
+    section { padding: 40px 0; }
+    .hero { padding-top: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ BARRA DE URGENCIA ============ -->
+<div class="barra-urgencia">
+  🔴 BONO "Acceso al grupo privado" disponible solo para las próximas compras
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="contenedor">
+    <h1>LAS PERSONAS DECIDEN SI LES GUSTAS<br>ANTES DE QUE ABRAS LA BOCA.<br>Y NO ES POR TU <span>CARA</span>.</h1>
+    <p class="sub">No es suerte, ni magia, ni tu apariencia. Es algo que proyectas sin darte cuenta — y los demás lo perciben antes de que digas una palabra.</p>
+
+    <div class="cta-wrap">
+      <!-- REEMPLAZA el href por tu link de checkout de Hotmart -->
+      <a href="https://pay.hotmart.com/TU-LINK-AQUI" class="cta" onclick="fbq('track','InitiateCheckout')">
+        Quiero saber qué estoy proyectando →
+      </a>
+      <p class="cta-nota">Acceso inmediato a tu correo · Pago 100% seguro</p>
+    </div>
+
+    <!-- REEMPLAZA con la imagen/mockup de tu ebook -->
+    <img src="el-patron-invisible-portada.jpeg" alt="Ebook El Patrón Invisible — qué proyectas sin saberlo">
+  </div>
+</section>
+
+<!-- ============ AGITACIÓN DEL PROBLEMA ============ -->
+<section class="problema">
+  <div class="contenedor">
+    <h2>Ya lo intentaste todo. Y sigue pasando lo mismo.</h2>
+    <ul class="lista-dolor">
+      <li>Sientes que las personas deciden en segundos si les interesas — y casi nunca a tu favor.</li>
+      <li>Dices y haces todo "bien" y aun así no llega esa conexión que buscas.</li>
+      <li>Eliges a la misma persona con distinta cara. Mismo patrón, otro nombre.</li>
+      <li>Terminas atrayendo siempre el mismo tipo de trato — el que no quieres.</li>
+      <li>Sientes que hay algo que "delatas" sin saber qué es, ni cómo cambiarlo.</li>
+    </ul>
+    <p style="color:#d8d8d8">Si la solución fuera "esfuérzate más" o "sé tú mismo", ya habría funcionado. El problema nunca estuvo en tu esfuerzo.</p>
+  </div>
+</section>
+
+<!-- ============ MECANISMO (autoridad integrada) ============ -->
+<section class="mecanismo">
+  <div class="contenedor">
+    <h2>Esto es lo que realmente está pasando</h2>
+    <p>No es lo que dices. No es lo que haces. Es algo <strong>más profundo</strong> que se proyecta sin que lo controles, y que decide cómo te perciben antes de que abras la boca.</p>
+    <p>No es magia ni casualidad. Es un patrón instalado en ti, silencioso, que se repite una y otra vez hasta que lo ves con claridad. Y una vez que lo ves, ya no puedes dejar de notarlo — ni de cambiarlo.</p>
+    <span class="credibilidad">La ciencia ya lo señaló: te tratan según lo que proyectas, no según lo que eres. Y tú decides eso sin saberlo.</span>
+  </div>
+</section>
+
+<!-- ============ QUÉ INCLUYE ============ -->
+<section class="incluye">
+  <div class="contenedor">
+    <h2>Esto no es otro PDF de frases bonitas.</h2>
+    <ul class="check-list">
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cómo identificar qué estás proyectando sin saberlo — en menos de 10 minutos.
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Por qué te enfocas en lo que "hiciste mal" en vez de en lo que sí funciona — y cómo cambiarlo.
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        El error #1 que cometen las personas que "ya trabajaron su autoestima" y siguen sintiendo lo mismo.
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ejercicios diarios de 5 minutos para reconstruirlo desde la raíz, no solo entenderlo.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ NO ES PARA TI ============ -->
+<section class="no-es-para-ti">
+  <div class="contenedor">
+    <h2>Esto no es para ti si...</h2>
+    <ul class="lista-descarte">
+      <li>Buscas frases para "ligar" o trucos rápidos de conquista. Esto no es eso.</li>
+      <li>No estás dispuesto a mirar hacia adentro, aunque sea incómodo.</li>
+      <li>Prefieres seguir culpando a la mala suerte en vez de ver el patrón.</li>
+      <li>Esperas resultados sin cambiar nada de cómo te muestras al mundo.</li>
+    </ul>
+    <p class="remate">Si llegaste leyendo hasta aquí, probablemente no eres ninguno de esos casos.</p>
+  </div>
+</section>
+
+<!-- ============ PRUEBA SOCIAL ============ -->
+<section class="prueba-social">
+  <div class="contenedor">
+    <h2 style="font-size:30px; margin-bottom:8px;">No eres el único.</h2>
+    <div class="testimonios">
+      <!-- Nota: afirmaciones generales, no atribuidas a personas específicas — reemplaza por testimonios reales con nombre/ciudad apenas los tengas -->
+      <div class="testimonio">Este patrón no depende de tu edad, tu físico, ni cuánta gente conozcas.</div>
+      <div class="testimonio">Se repite en distintas ciudades y distintas historias — el mecanismo de fondo es el mismo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFERTA ============ -->
+<section class="precio">
+  <div class="contenedor">
+    <div class="oferta">
+      <h2>Esto podrías tardar años en notarlo solo.</h2>
+      <div class="tabla-valor">
+        <div><span>Ebook "El Patrón Invisible"</span><span>$37</span></div>
+        <div><span>Bono: Cuaderno de trabajo 7 días</span><span>$19</span></div>
+        <div><span>Bono: Grupo privado (tiempo limitado)</span><span>$15</span></div>
+      </div>
+      <p class="precio-tachado">Valor total $71</p>
+      <p class="precio-final">$9.97</p>
+      <p style="font-size:14px; color:#d8d8d8; margin-bottom:20px;">¿Listo para dejar de repetirlo?</p>
+      <div class="cta-wrap">
+        <a href="https://pay.hotmart.com/TU-LINK-AQUI" class="cta" onclick="fbq('track','InitiateCheckout')">
+          Sí, quiero romper el patrón →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GARANTÍA ============ -->
+<section class="garantia">
+  <div class="sello">🛡️</div>
+  <h2 style="font-size:28px; margin-bottom:10px;">Cero riesgo.</h2>
+  <p style="color:#d8d8d8;">Si en 7 días sientes que esto no te sirvió, te devolvemos tu dinero. Sin preguntas.</p>
+</section>
+
+<!-- ============ FAQ (acordeón, sin JS extra) ============ -->
+<section class="faq">
+  <div class="contenedor">
+    <h2 style="font-size:30px; margin-bottom:16px;">Preguntas frecuentes</h2>
+    <details>
+      <summary>¿Ya trabajé mi autoestima, esto me sirve igual?</summary>
+      <p>Sí — es el complemento que la mayoría de eso no cubre a fondo: qué estás proyectando específicamente, sin que lo notes.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto tiempo toma leerlo?</summary>
+      <p>Entre 45 y 60 minutos, con ejercicios para volver cuando lo necesites.</p>
+    </details>
+    <details>
+      <summary>¿Es solo teoría o tiene ejercicios prácticos?</summary>
+      <p>Cada sección trae un ejercicio aplicable el mismo día.</p>
+    </details>
+    <details>
+      <summary>¿Cómo lo recibo?</summary>
+      <p>Acceso inmediato por correo apenas completas la compra.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="cierre">
+  <div class="contenedor">
+    <h2>Puedes cerrar esta página y seguir donde estás.<br>O hacer algo distinto hoy.</h2>
+    <div class="cta-wrap">
+      <a href="https://pay.hotmart.com/TU-LINK-AQUI" class="cta" onclick="fbq('track','InitiateCheckout')">
+        Quiero entender mi patrón ahora →
+      </a>
+      <p class="cta-nota">$9.97 · acceso inmediato · garantía de 7 días</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <!-- Links legales mínimos requeridos por Meta Ads para compliance -->
+  <p>© 2026 · <a href="#">Política de privacidad</a> · <a href="#">Términos</a></p>
+</footer>
+
+<!-- ============ CTA FLOTANTE (aparece en móvil al hacer scroll) ============ -->
+<div class="cta-flotante" id="ctaFlotante">
+  <a href="https://pay.hotmart.com/TU-LINK-AQUI" class="cta" onclick="fbq('track','InitiateCheckout')">
+    Quiero romper el patrón →
+  </a>
+</div>
+
+<script>
+  // Muestra el CTA flotante solo en móvil, solo después de pasar el hero.
+  // No usa localStorage/sessionStorage — solo estado en memoria (variable JS), como corresponde.
+  const ctaFlotante = document.getElementById('ctaFlotante');
+  let mostrado = false;
+
+  window.addEventListener('scroll', function () {
+    if (window.innerWidth > 640) return; // solo móvil
+    const debeMostrar = window.scrollY > window.innerHeight * 0.8;
+    if (debeMostrar !== mostrado) {
+      ctaFlotante.classList.toggle('visible', debeMostrar);
+      mostrado = debeMostrar;
+    }
+  });
+</script>
+
+</body>
+</html>

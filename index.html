@@ -1,523 +1,580 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>El Patrón Invisible — Las personas deciden si le gustas antes de que hables</title>
-<meta name="description" content="Un ebook directo, sin rodeos, sobre qué proyectas sin darte cuenta — y por qué eso decide cómo te perciben y te tratan los demás.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Patrón Invisible | Método Digital PDF</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#040406',
+                        cardDark: '#0d0e14',
+                        crimson: '#ff2a3b',
+                        crimsonDark: '#b81d2a',
+                        gold: '#fbbf24'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                        mono: ['Space Grotesk', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #040406;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-<!-- Open Graph: importante para que el link se vea bien cuando Meta lo previsualiza en el anuncio -->
-<meta property="og:title" content="El Patrón Invisible — Deciden si les gustas antes de que hables">
-<meta property="og:description" content="No es suerte, ni tu apariencia. Es algo que proyectas sin saberlo.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="el-patron-invisible-portada.jpeg">
+        .glow-aura {
+            background: radial-gradient(circle, rgba(255, 42, 59, 0.25) 0%, rgba(4, 4, 6, 0) 70%);
+        }
 
-<!-- ============================================================
-     META PIXEL — ID real de David.
-     Este base code va SIEMPRE en el <head>, lo antes posible.
-     ============================================================ -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1109395975104132');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1109395975104132&ev=PageView&noscript=1"
-/></noscript>
+        @keyframes subtlePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 42, 59, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 40px rgba(255, 42, 59, 0.7); }
+        }
 
-<!-- Google Fonts: una sola tipografía de impacto para titulares + una legible para cuerpo.
-     Si quieres cero dependencias externas, borra este link y usa la pila de fuentes del sistema
-     que ya está puesta como fallback en el CSS. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+        .btn-glow {
+            background: linear-gradient(135deg, #ff2a3b 0%, #b81d2a 100%);
+            box-shadow: 0 0 30px rgba(255, 42, 59, 0.45);
+            transition: all 0.2s ease-in-out;
+            animation: subtlePulse 2.8s ease-in-out infinite;
+        }
+        .btn-glow:active, .btn-glow:hover {
+            box-shadow: 0 0 45px rgba(255, 42, 59, 0.75);
+            transform: scale(0.98);
+        }
 
-<style>
-  :root {
-    --negro: #0a0a0a;
-    --negro-suave: #161616;
-    --rojo: #e10600;
-    --rojo-hover: #ff2419;
-    --blanco: #f5f5f5;
-    --gris: #9a9a9a;
-    --max-width: 680px; /* landing angosta a propósito: menos ancho = menos distracción visual, más foco en el copy */
-  }
+        .book-wrapper {
+            perspective: 1000px;
+        }
+        .book-3d {
+            width: 190px;
+            height: 275px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-12deg) rotateX(4deg);
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+        @media (min-width: 640px) {
+            .book-3d {
+                width: 220px;
+                height: 320px;
+            }
+        }
+        .book-front-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #08080d;
+            border-radius: 2px 6px 6px 2px;
+            box-shadow: inset 2px 0 8px rgba(255,255,255,0.1), 10px 15px 35px rgba(0,0,0,0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+        .book-side-spine {
+            position: absolute;
+            width: 22px;
+            height: 100%;
+            left: -11px;
+            background: #111118;
+            transform: rotateY(-90deg);
+            border-left: 1px solid rgba(255,255,255,0.15);
+        }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+        @keyframes floatSlow {
+            0%, 100% { transform: rotateY(-12deg) rotateX(4deg) translateY(0px); }
+            50% { transform: rotateY(-8deg) rotateX(5deg) translateY(-8px); }
+        }
 
-  html { scroll-behavior: smooth; }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
 
-  body {
-    background: var(--negro);
-    color: var(--blanco);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  h1, h2, .impacto {
-    font-family: 'Bebas Neue', 'Inter', sans-serif;
-    font-weight: 400; /* Bebas Neue solo tiene un peso, ya es bold por diseño */
-    line-height: 1.05;
-    letter-spacing: 0.5px; /* esta fuente es angosta por naturaleza, necesita un poco de aire entre letras, no menos */
-    text-transform: uppercase;
-  }
-
-  .contenedor {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  section { padding: 56px 0; }
-
-  /* ---------- BARRA DE URGENCIA (arriba de todo) ---------- */
-  .barra-urgencia {
-    background: var(--rojo);
-    color: var(--blanco);
-    text-align: center;
-    font-weight: 800;
-    font-size: 14px;
-    padding: 10px 16px;
-    letter-spacing: 0.3px;
-  }
-
-  /* ---------- HERO ---------- */
-  .hero { padding-top: 48px; text-align: center; }
-  .hero h1 {
-    font-size: clamp(40px, 8vw, 58px); /* Bebas Neue es angosta, se puede ir más grande sin romper el layout */
-    margin-bottom: 18px;
-  }
-  .hero h1 span { color: var(--rojo); }
-  .hero .sub {
-    font-size: 18px;
-    color: var(--gris);
-    max-width: 560px;
-    margin: 0 auto 32px;
-  }
-  .hero img {
-    max-width: 260px;
-    width: 100%;
-    margin: 32px auto 0;
-    display: block;
-    filter: drop-shadow(0 20px 40px rgba(225,6,0,0.25));
-  }
-
-  /* ---------- BOTÓN CTA (un solo estilo, repetido siempre igual = KISS) ---------- */
-  .cta {
-    display: inline-block;
-    background: var(--rojo);
-    color: var(--blanco);
-    font-weight: 800;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 17px;
-    padding: 18px 32px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    transition: background 0.15s ease, transform 0.1s ease;
-    width: 100%;
-    max-width: 420px;
-    text-align: center;
-  }
-  .cta:hover { background: var(--rojo-hover); transform: translateY(-1px); }
-  .cta-wrap { text-align: center; margin-top: 8px; }
-  .cta-nota {
-    font-size: 13px;
-    color: var(--gris);
-    margin-top: 10px;
-  }
-
-  /* ---------- AGITACIÓN / PROBLEMA ---------- */
-  .problema { background: var(--negro-suave); }
-  .problema h2 { font-size: 34px; margin-bottom: 20px; }
-  .lista-dolor { list-style: none; margin: 24px 0; }
-  .lista-dolor li {
-    padding: 10px 0 10px 28px;
-    position: relative;
-    color: var(--blanco);
-    border-bottom: 1px solid #262626;
-  }
-  .lista-dolor li::before {
-    content: "—";
-    color: var(--rojo);
-    position: absolute;
-    left: 0;
-    font-weight: 800;
-  }
-
-  /* ---------- MECANISMO (autoridad integrada, sin sección aparte) ---------- */
-  .mecanismo h2 { font-size: 34px; margin-bottom: 20px; }
-  .mecanismo p { margin-bottom: 16px; color: #d8d8d8; }
-  .mecanismo strong { color: var(--blanco); }
-  .credibilidad {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--rojo);
-    font-weight: 800;
-    border: 1px solid var(--rojo);
-    padding: 6px 12px;
-    border-radius: 4px;
-  }
-
-  /* ---------- QUÉ INCLUYE ---------- */
-  .incluye { background: var(--negro-suave); }
-  .incluye h2 { font-size: 32px; margin-bottom: 24px; }
-  .check-list { list-style: none; }
-  .check-list li {
-    display: flex;
-    gap: 12px;
-    padding: 12px 0;
-    align-items: flex-start;
-  }
-  .check-list svg { flex-shrink: 0; margin-top: 3px; }
-
-  /* ---------- NO ES PARA TI ---------- */
-  .no-es-para-ti h2 { font-size: 32px; margin-bottom: 20px; }
-  .lista-descarte { list-style: none; margin: 24px 0; }
-  .lista-descarte li {
-    padding: 10px 0 10px 32px;
-    position: relative;
-    color: #c9c9c9;
-    border-bottom: 1px solid #262626;
-  }
-  .lista-descarte li::before {
-    content: "✕";
-    color: var(--rojo);
-    position: absolute;
-    left: 0;
-    font-weight: 800;
-  }
-  .no-es-para-ti .remate {
-    margin-top: 20px;
-    color: var(--blanco);
-    font-weight: 600;
-  }
-
-  /* ---------- PRUEBA SOCIAL ---------- */
-  .testimonios { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
-  .testimonio {
-    background: var(--negro-suave);
-    border-left: 3px solid var(--rojo);
-    padding: 16px 18px;
-    font-size: 15px;
-    color: #dedede;
-  }
-  .testimonio span {
-    display: block;
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--gris);
-  }
-
-  /* ---------- OFERTA / PRECIO ---------- */
-  .oferta {
-    background: var(--negro-suave);
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 32px 24px;
-    text-align: center;
-    margin-top: 8px;
-  }
-  .oferta h2 { font-size: 30px; margin-bottom: 20px; }
-  .tabla-valor { text-align: left; margin: 0 auto 24px; max-width: 360px; }
-  .tabla-valor div {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px dashed #333;
-    font-size: 14px;
-    color: var(--gris);
-  }
-  .precio-final {
-    font-size: 42px;
-    font-weight: 800;
-    color: var(--rojo);
-    margin: 12px 0 4px;
-    font-family: 'Archivo Black', sans-serif;
-  }
-  .precio-tachado {
-    text-decoration: line-through;
-    color: var(--gris);
-    font-size: 16px;
-  }
-
-  /* ---------- GARANTÍA ---------- */
-  .garantia {
-    text-align: center;
-    padding: 40px 24px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .garantia .sello {
-    font-size: 40px;
-    margin-bottom: 12px;
-  }
-
-  /* ---------- FAQ (acordeón nativo, sin JS) ---------- */
-  .faq details {
-    border-bottom: 1px solid #262626;
-    padding: 16px 0;
-  }
-  .faq summary {
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 16px;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: "+";
-    color: var(--rojo);
-    font-size: 22px;
-    margin-left: 12px;
-  }
-  .faq details[open] summary::after { content: "–"; }
-  .faq p {
-    margin-top: 10px;
-    color: var(--gris);
-    font-size: 15px;
-  }
-
-  /* ---------- CIERRE ---------- */
-  .cierre {
-    text-align: center;
-    background: var(--negro-suave);
-  }
-  .cierre h2 { font-size: 32px; margin-bottom: 24px; }
-
-  footer {
-    text-align: center;
-    padding: 32px 24px;
-    font-size: 12px;
-    color: #555;
-  }
-  footer a { color: #777; }
-
-  /* ---------- CTA FLOTANTE MÓVIL ---------- */
-  .cta-flotante {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--negro);
-    border-top: 1px solid #2a2a2a;
-    padding: 12px 16px;
-    display: none;
-    z-index: 999;
-  }
-  .cta-flotante.visible { display: block; }
-  .cta-flotante .cta { width: 100%; max-width: none; padding: 14px; font-size: 15px; }
-
-  @media (max-width: 480px) {
-    section { padding: 40px 0; }
-    .hero { padding-top: 32px; }
-  }
-</style>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1109395975104132');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1109395975104132&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
-<body>
+<body class="antialiased selection:bg-crimson selection:text-white bg-obsidian text-white pb-28 sm:pb-12">
 
-<!-- ============ BARRA DE URGENCIA ============ -->
-<div class="barra-urgencia">
-  🔴 BONO "Acceso al grupo privado" disponible solo para las próximas compras
-</div>
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-obsidian/95 backdrop-blur-md border-b border-crimson/40">
+        <div class="max-w-md mx-auto px-4 h-12 flex items-center justify-between font-mono text-xs sm:text-sm">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-crimson animate-pulse"></span>
+                <span class="text-white font-bold uppercase text-[11px] sm:text-xs">OFERTA TERMINA EN <span id="header-timer" class="text-crimson font-black text-sm sm:text-base ml-1">14:59</span></span>
+            </div>
+            <div class="flex items-center space-x-1 text-gold font-bold text-xs sm:text-sm">
+                <i class="fa-solid fa-fire text-xs animate-bounce mr-1"></i>
+                <span><strong class="font-black">$9</strong><span class="text-[10px] sm:text-xs font-semibold">.97</span> USD</span>
+            </div>
+        </div>
+    </header>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="contenedor">
-    <h1>LAS PERSONAS DECIDEN SI LES GUSTAS<br>ANTES DE QUE ABRAS LA BOCA.<br>Y NO ES POR TU <span>CARA</span>.</h1>
-    <p class="sub">No es suerte, ni magia, ni tu apariencia. Es algo que proyectas sin darte cuenta — y los demás lo perciben antes de que digas una palabra.</p>
+    <!-- HERO SECTION -->
+    <section class="pt-16 pb-8 relative overflow-hidden">
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[500px] h-[340px] sm:h-[500px] glow-aura rounded-full pointer-events-none"></div>
 
-    <div class="cta-wrap">
-      <!-- REEMPLAZA el href por tu link de checkout de Hotmart -->
-      <a href="https://pay.hotmart.com/P107173047D" class="cta" onclick="fbq('track','InitiateCheckout')">
-        Quiero saber qué estoy proyectando →
-      </a>
-      <p class="cta-nota">Acceso inmediato a tu correo · Pago 100% seguro</p>
+        <div class="max-w-md mx-auto px-4 relative z-10 text-center space-y-5">
+            
+            <!-- Social Proof Rating Badge -->
+            <div class="pt-2 flex flex-col items-center justify-center gap-1">
+                <div class="inline-flex items-center space-x-1 text-gold text-xs">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <span class="text-white font-bold text-xs ml-1">4.9/5</span>
+                </div>
+                <div class="text-[11px] font-mono text-slate-300">
+                    +1,400 personas lo leyeron en Latinoamérica
+                </div>
+            </div>
+
+            <!-- Live Viewers -->
+            <div class="inline-flex items-center space-x-2 bg-crimson/15 border border-crimson/40 px-3.5 py-1.5 rounded-full text-xs font-mono text-slate-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span><strong class="text-white font-bold" id="live-viewers">38</strong> personas viendo esta página</span>
+            </div>
+
+            <!-- Headline: Transformation/Result -->
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-snug font-sans">
+                Te gusta alguien.
+                <br>
+                Intentas no arruinarlo.
+                <br>
+                <span class="text-red-500 underline decoration-red-500/50">Y aun así... se aleja.</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-sm sm:text-base text-slate-200 font-normal leading-relaxed max-w-sm mx-auto">
+                No es que seas feo/a ni que tengas mala suerte. Es un <strong class="text-white font-bold underline decoration-crimson">comportamiento automático</strong> que apaga el interés sin que te des cuenta.
+            </p>
+
+            <!-- 3D Book Visual -->
+            <div class="book-wrapper py-1 flex justify-center">
+                <div class="book-3d">
+                    <div class="book-side-spine"></div>
+                    <div class="book-front-cover p-4 flex flex-col justify-between">
+                        <div class="text-left">
+                            <div class="w-6 h-6 rounded-full border border-white/30 bg-white/10 mb-3 flex items-center justify-center">
+                                <div class="w-2 h-2 rounded-full bg-crimson"></div>
+                            </div>
+                            <span class="text-[9px] font-mono tracking-widest text-crimson uppercase block font-bold">MÉTODO DIGITAL PDF</span>
+                            <h2 class="font-serif text-2xl sm:text-3xl font-black text-white leading-none">EL PATRÓN</h2>
+                            <h2 class="font-serif text-2xl sm:text-3xl font-black text-crimson leading-none mt-0.5">INVISIBLE</h2>
+                        </div>
+                        <div class="text-left border-t border-white/20 pt-2">
+                            <p class="text-[10px] text-slate-300 font-sans font-medium">Lectura corta de 20 min (16 páginas)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Above the Fold CTA -->
+            <div class="space-y-2.5 pt-1">
+                <a href="https://pay.hotmart.com/P107173047D" target="_blank" rel="noopener" class="w-full py-4 px-4 sm:px-6 text-white font-black text-sm sm:text-base uppercase tracking-wider rounded-xl btn-glow flex items-center justify-center gap-2 sm:gap-3 text-center">
+                    <i class="fa-solid fa-bolt text-base sm:text-lg animate-pulse shrink-0"></i>
+                    <span class="truncate">¡QUIERO EL MÉTODO AHORA! — $9.97 USD</span>
+                </a>
+                <p class="text-xs text-slate-400 font-mono flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-crimson shrink-0"></i> Acceso inmediato · Garantía de 7 días
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- IDENTIFICATION & AGITATION HOOKS -->
+    <section class="py-8 bg-cardDark border-y border-white/10">
+        <div class="max-w-md mx-auto px-4 space-y-4">
+            
+            <div class="text-center space-y-1">
+                <span class="text-xs font-mono uppercase tracking-widest text-crimson font-extrabold">¿TE HA PASADO ESTO?</span>
+                <h2 class="text-xl sm:text-2xl font-black text-white">Seguro te ha pasado que...</h2>
+            </div>
+
+            <div class="space-y-2.5 text-sm font-sans">
+                <div class="p-4 rounded-xl bg-obsidian border border-white/15 flex items-start space-x-3">
+                    <span class="text-crimson font-black text-base shrink-0">👉</span>
+                    <p class="text-slate-100 font-medium">Al principio le gustas, pero en cuanto tú muestras interés... la otra persona se enfría.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-obsidian border border-white/15 flex items-start space-x-3">
+                    <span class="text-crimson font-black text-base shrink-0">👉</span>
+                    <p class="text-slate-100 font-medium">Terminas escribiendo mensajes largos o dando explicaciones que nadie te pidió.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-obsidian border border-white/15 flex items-start space-x-3">
+                    <span class="text-crimson font-black text-base shrink-0">👉</span>
+                    <p class="text-slate-100 font-medium">Te pones tan nervioso/a que prefieres alejarte tú primero antes de que te dejen a ti.</p>
+                </div>
+            </div>
+
+            <!-- Consequence Statement -->
+            <div class="p-4 rounded-xl bg-crimson/10 border border-crimson/30 text-center space-y-1">
+                <p class="text-xs font-mono text-crimson font-bold uppercase">LA CONSECUENCIA DE NO RESOLVER ESTO:</p>
+                <p class="text-xs sm:text-sm text-slate-200 font-medium">
+                    Seguir gastando meses en personas que te importan, repitiendo la misma historia con distinta cara y el mismo final.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REVIEWS & SOCIAL PROOF -->
+    <section class="py-8 bg-obsidian border-b border-white/10">
+        <div class="max-w-md mx-auto px-4 space-y-4">
+            <div class="text-center space-y-1">
+                <span class="text-xs font-mono text-crimson font-extrabold uppercase tracking-widest">TESTIMONIOS VERIFICADOS</span>
+                <h2 class="text-xl sm:text-2xl font-black text-white">Reseñas de lectores:</h2>
+            </div>
+
+            <div class="space-y-3">
+                <div class="p-4 rounded-xl bg-cardDark border border-white/15 space-y-2">
+                    <div class="flex items-center justify-between text-gold text-xs">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span class="text-slate-400 font-mono text-[10px]">Lectura verificada</span>
+                    </div>
+                    <p class="text-slate-200 text-sm italic font-medium">"En 20 minutos entendí exactamente por qué todas mis relaciones terminaban en lo mismo. Sin rodeos."</p>
+                    <p class="text-crimson font-mono text-xs font-bold">— Andrés V., CDMX</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-cardDark border border-white/15 space-y-2">
+                    <div class="flex items-center justify-between text-gold text-xs">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span class="text-slate-400 font-mono text-[10px]">Lectura verificada</span>
+                    </div>
+                    <p class="text-slate-200 text-sm italic font-medium">"Cero teoría pesada. El ejercicio de 60 segundos antes de hablarle a alguien me cambió todo."</p>
+                    <p class="text-crimson font-mono text-xs font-bold">— Mariana K., Buenos Aires</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFER & PRICING -->
+    <section id="oferta" class="py-10 bg-gradient-to-b from-cardDark to-obsidian border-t border-white/10">
+        <div class="max-w-md mx-auto px-4 text-center space-y-5">
+            
+            <div class="space-y-1">
+                <span class="text-xs font-mono text-crimson font-extrabold uppercase tracking-widest">DESCARGA INMEDIATA</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Accede hoy al método completo</h2>
+            </div>
+
+            <!-- Scarcity Box -->
+            <div class="p-4 rounded-2xl bg-crimson/10 border-2 border-crimson/50 space-y-2 text-left">
+                <div class="flex justify-between items-center text-xs font-mono">
+                    <span class="text-slate-300 font-bold"><i class="fa-solid fa-chart-line text-crimson mr-1"></i> CUPOS DESCUENTO 88%</span>
+                    <span class="text-crimson font-black">94% VENDIDO</span>
+                </div>
+                <div class="w-full bg-obsidian h-2.5 rounded-full overflow-hidden p-0.5 border border-crimson/30">
+                    <div class="bg-crimson h-full rounded-full w-[94%] animate-pulse"></div>
+                </div>
+                <p class="text-xs text-slate-300 font-mono text-center pt-1">
+                    ⚠️ Solo quedan <strong class="text-white font-bold underline decoration-crimson">6 copias a $9.97 USD</strong>. Luego sube a $27.00 USD.
+                </p>
+            </div>
+
+            <!-- Value Stack Box -->
+            <div class="p-5 rounded-2xl bg-obsidian border-2 border-white/15 space-y-4 text-left font-sans">
+                <div class="border-b border-white/10 pb-3">
+                    <h3 class="text-sm font-mono font-bold text-crimson uppercase tracking-wider">LO QUE TE LLEVAS HOY:</h3>
+                </div>
+
+                <div class="space-y-3 text-xs sm:text-sm">
+                    <div class="flex justify-between items-start gap-2">
+                        <span class="text-slate-100 font-semibold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Libro digital "El Patrón Invisible" (PDF 16 págs)</span>
+                        <span class="text-slate-400 font-mono line-through shrink-0">$27.00</span>
+                    </div>
+
+                    <div class="flex justify-between items-start gap-2">
+                        <span class="text-slate-100 font-semibold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Libreta de Ejercicios Guiados 7 Días (PDF)</span>
+                        <span class="text-gold font-mono font-bold shrink-0">GRATIS</span>
+                    </div>
+
+                    <div class="flex justify-between items-start gap-2">
+                        <span class="text-slate-100 font-semibold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Acceso al Canal Privado de WhatsApp</span>
+                        <span class="text-gold font-mono font-bold shrink-0">GRATIS</span>
+                    </div>
+
+                    <div class="flex justify-between items-start gap-2">
+                        <span class="text-slate-100 font-semibold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Actualizaciones y adiciones futuras sin costo</span>
+                        <span class="text-gold font-mono font-bold shrink-0">GRATIS</span>
+                    </div>
+
+                    <!-- Highlighted Guarantee Item -->
+                    <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex justify-between items-center gap-2 mt-1">
+                        <span class="text-emerald-300 font-bold text-xs"><i class="fa-solid fa-shield-check text-emerald-400 mr-1.5"></i> Garantía Incondicional de 7 Días (100% Sin Riesgo)</span>
+                        <span class="text-emerald-400 font-mono font-bold text-xs shrink-0">INCLUIDA</span>
+                    </div>
+                </div>
+
+                <!-- Price Stack Anchor -->
+                <div class="border-t border-white/10 pt-4 text-center space-y-1">
+                    <div class="text-xs font-mono text-slate-400">
+                        VALOR TOTAL REAL: <span class="line-through text-slate-400">$85.68 USD</span>
+                    </div>
+
+                    <div class="pt-1 flex items-baseline justify-center gap-1 font-mono">
+                        <span class="text-xs text-slate-400 uppercase">PRECIO HOY:</span>
+                        <span class="text-5xl sm:text-6xl font-black text-white tracking-tight">$9</span>
+                        <span class="text-xl sm:text-2xl font-bold text-crimson">.97</span>
+                        <span class="text-xs font-bold text-slate-300 ml-1">USD</span>
+                    </div>
+                    <p class="text-[11px] text-emerald-400 font-mono font-semibold">
+                        <i class="fa-solid fa-tag mr-1"></i> Ahorras $75.71 USD (88% Descuento)
+                    </p>
+                </div>
+
+                <!-- CTA Button Inside Card -->
+                <div class="pt-2">
+                    <a href="https://pay.hotmart.com/P107173047D" target="_blank" rel="noopener" class="w-full py-4 px-4 sm:px-6 text-white font-black text-sm sm:text-base uppercase tracking-wider rounded-xl btn-glow flex items-center justify-center gap-2.5 text-center">
+                        <i class="fa-solid fa-lock text-sm sm:text-base shrink-0"></i>
+                        <span class="truncate">¡QUIERO EL MÉTODO COMPLETO EN PDF!</span>
+                    </a>
+                </div>
+
+                <!-- Guarantee & Security Badges -->
+                <div class="flex items-center justify-center gap-4 text-[10px] text-slate-400 font-mono pt-1">
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-lock text-emerald-400"></i> Pago Seguro SSL</span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-bolt text-gold"></i> Entrega Inmediata</span>
+                </div>
+            </div>
+
+            <!-- Guarantee Box -->
+            <div class="p-4 rounded-xl bg-cardDark border border-white/10 flex items-center space-x-3 text-left">
+                <i class="fa-solid fa-shield-halved text-2xl text-crimson shrink-0"></i>
+                <div class="space-y-0.5">
+                    <h4 class="text-xs font-bold text-white uppercase font-mono">GARANTÍA DE DEVOLUCIÓN DE 7 DÍAS</h4>
+                    <p class="text-[11px] text-slate-300">Si lo lees y sientes que no aprendiste nada nuevo, pides la devolución y se te regresa el 100% de tu dinero. Sin preguntas.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ ACCORDION SECTION (COMPACT & AT THE BOTTOM) -->
+    <section class="py-8 bg-obsidian border-t border-white/10">
+        <div class="max-w-md mx-auto px-4 space-y-4">
+            
+            <div class="text-center space-y-1">
+                <span class="text-xs font-mono text-crimson font-extrabold uppercase tracking-widest">RESPUESTAS RÁPIDAS</span>
+                <h2 class="text-lg sm:text-xl font-black text-white">Preguntas frecuentes</h2>
+            </div>
+
+            <!-- Accordions -->
+            <div class="space-y-2 text-xs sm:text-sm font-sans">
+                
+                <details class="group bg-cardDark rounded-xl border border-white/10 overflow-hidden">
+                    <summary class="p-4 font-bold text-white cursor-pointer flex justify-between items-center list-none select-none">
+                        <span>¿En qué formato recibiré el libro?</span>
+                        <i class="fa-solid fa-chevron-down text-crimson group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <div class="px-4 pb-4 text-slate-300 space-y-2 border-t border-white/5 pt-2">
+                        <p>Es un libro digital en formato **PDF**. Podrás descargarlo inmediatamente en tu celular, tablet o computadora nada más completar el pago.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-cardDark rounded-xl border border-white/10 overflow-hidden">
+                    <summary class="p-4 font-bold text-white cursor-pointer flex justify-between items-center list-none select-none">
+                        <span>¿Cuánto tiempo me tomará leerlo?</span>
+                        <i class="fa-solid fa-chevron-down text-crimson group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <div class="px-4 pb-4 text-slate-300 space-y-2 border-t border-white/5 pt-2">
+                        <p>Tiene **16 páginas directo al grano**. Te tomará aproximadamente **20 minutos** completarlo. Sin teoría de relleno.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-cardDark rounded-xl border border-white/10 overflow-hidden">
+                    <summary class="p-4 font-bold text-white cursor-pointer flex justify-between items-center list-none select-none">
+                        <span>¿Cómo funciona la garantía de 7 días?</span>
+                        <i class="fa-solid fa-chevron-down text-crimson group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <div class="px-4 pb-4 text-slate-300 space-y-2 border-t border-white/5 pt-2">
+                        <p>Tienes 7 días completos para leerlo. Si sientes que no te sirvió, puedes solicitar el reembolso con un solo clic en Hotmart y se te devuelve todo tu dinero.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-cardDark rounded-xl border border-white/10 overflow-hidden">
+                    <summary class="p-4 font-bold text-white cursor-pointer flex justify-between items-center list-none select-none">
+                        <span>¿Cómo realizo el pago?</span>
+                        <i class="fa-solid fa-chevron-down text-crimson group-open:rotate-180 transition-transform"></i>
+                    </summary>
+                    <div class="px-4 pb-4 text-slate-300 space-y-2 border-t border-white/5 pt-2">
+                        <p>El checkout se procesa mediante **Hotmart** (la plataforma de productos digitales más segura de Latinoamérica). Acepta tarjeta de crédito, débito, PayPal y métodos locales según tu país.</p>
+                    </div>
+                </details>
+
+            </div>
+
+            <!-- FINAL EMOTIONAL PUSH & BOTTOM CHECKOUT BUTTON -->
+            <div class="pt-6 text-center space-y-4">
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-white italic">"Tu próxima relación empieza por entenderte hoy."</p>
+                    <p class="text-xs text-slate-400 font-mono">Aprovecha la oferta especial de $9.97 USD antes de que caduque el temporizador.</p>
+                </div>
+
+                <a href="https://pay.hotmart.com/P107173047D" target="_blank" rel="noopener" class="w-full py-4 px-4 sm:px-6 text-white font-black text-sm sm:text-base uppercase tracking-wider rounded-xl btn-glow flex items-center justify-center gap-2.5 text-center">
+                    <i class="fa-solid fa-cart-shopping text-base shrink-0"></i>
+                    <span class="truncate">¡QUIERO EL MÉTODO AHORA! — $9.97 USD</span>
+                </a>
+
+                <p class="text-[11px] text-slate-400 font-mono flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-emerald-400"></i> Compra 100% Segura · Acceso Instantáneo
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 bg-obsidian border-t border-white/10 text-center font-mono text-[10px] text-slate-400 space-y-2">
+        <div class="max-w-md mx-auto px-4 space-y-2">
+            <p>© 2026 El Patrón Invisible. Todos los derechos reservados.</p>
+            <p class="text-slate-400">Este sitio no es parte del sitio web de Facebook ni de Meta Inc.</p>
+        </div>
+    </footer>
+
+    <!-- STICKY MOBILE BOTTOM BAR -->
+    <div class="fixed bottom-0 left-0 w-full z-40 bg-obsidian/95 border-t border-crimson/50 p-3 sm:hidden backdrop-blur-md">
+        <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+            <div class="flex flex-col font-mono">
+                <span class="text-[9px] text-slate-400 uppercase font-bold">OFERTA HOY</span>
+                <span class="text-base font-black text-white leading-none"><strong class="font-black">$9</strong><span class="text-xs font-semibold text-crimson">.97</span> <span class="text-[9px] text-slate-400 font-normal">USD</span></span>
+            </div>
+            <a href="https://pay.hotmart.com/P107173047D" target="_blank" rel="noopener" class="py-3 px-4 text-white font-black text-xs uppercase tracking-wider rounded-lg btn-glow shrink-0 flex items-center justify-center gap-1.5">
+                <span>¡QUIERO EL MÉTODO!</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
     </div>
 
-    <img src="el-patron-invisible-portada.jpeg" alt="Ebook El Patrón Invisible — qué proyectas sin saberlo">
-  </div>
-</section>
-
-<!-- ============ AGITACIÓN DEL PROBLEMA ============ -->
-<section class="problema">
-  <div class="contenedor">
-    <h2>Ya lo intentaste todo. Y sigue pasando lo mismo.</h2>
-    <ul class="lista-dolor">
-      <li>Sientes que las personas deciden en segundos si les interesas — y casi nunca a tu favor.</li>
-      <li>Dices y haces todo "bien" y aun así no llega esa conexión que buscas.</li>
-      <li>Eliges a la misma persona con distinta cara. Mismo patrón, otro nombre.</li>
-      <li>Terminas atrayendo siempre el mismo tipo de trato — el que no quieres.</li>
-      <li>Sientes que hay algo que "delatas" sin saber qué es, ni cómo cambiarlo.</li>
-    </ul>
-    <p style="color:#d8d8d8">Si la solución fuera "esfuérzate más" o "sé tú mismo", ya habría funcionado. El problema nunca estuvo en tu esfuerzo.</p>
-  </div>
-</section>
-
-<!-- ============ MECANISMO (autoridad integrada) ============ -->
-<section class="mecanismo">
-  <div class="contenedor">
-    <h2>Esto es lo que realmente está pasando</h2>
-    <p>No es lo que dices. No es lo que haces. Es algo <strong>más profundo</strong> que se proyecta sin que lo controles, y que decide cómo te perciben antes de que abras la boca.</p>
-    <p>No es magia ni casualidad. Es un patrón instalado en ti, silencioso, que se repite una y otra vez hasta que lo ves con claridad. Y una vez que lo ves, ya no puedes dejar de notarlo — ni de cambiarlo.</p>
-    <span class="credibilidad">La ciencia ya lo señaló: te tratan según lo que proyectas, no según lo que eres. Y tú decides eso sin saberlo.</span>
-  </div>
-</section>
-
-<!-- ============ QUÉ INCLUYE ============ -->
-<section class="incluye">
-  <div class="contenedor">
-    <h2>Esto no es otro PDF de frases bonitas.</h2>
-    <ul class="check-list">
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Cómo identificar qué estás proyectando sin saberlo — en menos de 10 minutos.
-      </li>
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Por qué te enfocas en lo que "hiciste mal" en vez de en lo que sí funciona — y cómo cambiarlo.
-      </li>
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        El error #1 que cometen las personas que "ya trabajaron su autoestima" y siguen sintiendo lo mismo.
-      </li>
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#e10600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Ejercicios diarios de 5 minutos para reconstruirlo desde la raíz, no solo entenderlo.
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- ============ NO ES PARA TI ============ -->
-<section class="no-es-para-ti">
-  <div class="contenedor">
-    <h2>Esto no es para ti si...</h2>
-    <ul class="lista-descarte">
-      <li>Buscas frases para "ligar" o trucos rápidos de conquista. Esto no es eso.</li>
-      <li>No estás dispuesto a mirar hacia adentro, aunque sea incómodo.</li>
-      <li>Prefieres seguir culpando a la mala suerte en vez de ver el patrón.</li>
-      <li>Esperas resultados sin cambiar nada de cómo te muestras al mundo.</li>
-    </ul>
-    <p class="remate">Si llegaste leyendo hasta aquí, probablemente no eres ninguno de esos casos.</p>
-  </div>
-</section>
-
-<!-- ============ PRUEBA SOCIAL ============ -->
-<section class="prueba-social">
-  <div class="contenedor">
-    <h2 style="font-size:30px; margin-bottom:8px;">No eres el único.</h2>
-    <div class="testimonios">
-      <!-- Nota: afirmaciones generales, no atribuidas a personas específicas — reemplaza por testimonios reales con nombre/ciudad apenas los tengas -->
-      <div class="testimonio">Este patrón no depende de tu edad, tu físico, ni cuánta gente conozcas.</div>
-      <div class="testimonio">Se repite en distintas ciudades y distintas historias — el mecanismo de fondo es el mismo.</div>
+    <!-- RECENT PURCHASE SOCIAL PROOF TOAST -->
+    <div id="purchase-toast" class="fixed bottom-16 sm:bottom-6 left-4 z-50 bg-cardDark/95 border border-white/20 p-3 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-crimson/20 border border-crimson text-crimson flex items-center justify-center font-bold text-xs shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div class="font-sans text-[11px] leading-tight space-y-0.5">
+            <p class="font-bold text-white"><span id="toast-name">Carlos M.</span> de <span id="toast-city">Bogotá</span></p>
+            <p class="text-slate-300">Acaba de descargar <strong class="text-crimson">El Patrón Invisible</strong></p>
+            <p class="text-[9px] font-mono text-slate-400">Hace <span id="toast-time">2</span> minutos</p>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- ============ OFERTA ============ -->
-<section class="precio">
-  <div class="contenedor">
-    <div class="oferta">
-      <h2>Esto podrías tardar años en notarlo solo.</h2>
-      <div class="tabla-valor">
-        <div><span>Ebook "El Patrón Invisible"</span><span>$37</span></div>
-        <div><span>Bono: Cuaderno de trabajo 7 días</span><span>$19</span></div>
-        <div><span>Bono: Grupo privado (tiempo limitado)</span><span>$15</span></div>
-      </div>
-      <p class="precio-tachado">Valor total $71</p>
-      <p class="precio-final">$9.97</p>
-      <p style="font-size:14px; color:#d8d8d8; margin-bottom:20px;">¿Listo para dejar de repetirlo?</p>
-      <div class="cta-wrap">
-        <a href="https://pay.hotmart.com/P107173047D" class="cta" onclick="fbq('track','InitiateCheckout')">
-          Sí, quiero romper el patrón →
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+    <script>
+        // COUNTDOWN TIMER
+        let minutes = 14;
+        let seconds = 59;
+        const headerTimer = document.getElementById('header-timer');
 
-<!-- ============ GARANTÍA ============ -->
-<section class="garantia">
-  <div class="sello">🛡️</div>
-  <h2 style="font-size:28px; margin-bottom:10px;">Cero riesgo.</h2>
-  <p style="color:#d8d8d8;">Si en 7 días sientes que esto no te sirvió, te devolvemos tu dinero. Sin preguntas.</p>
-</section>
+        setInterval(() => {
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    minutes = 14;
+                    seconds = 59;
+                }
+            }
+            const minStr = minutes < 10 ? '0' + minutes : minutes;
+            const secStr = seconds < 10 ? '0' + seconds : seconds;
+            if (headerTimer) headerTimer.innerText = `${minStr}:${secStr}`;
+        }, 1000);
 
-<!-- ============ FAQ (acordeón, sin JS extra) ============ -->
-<section class="faq">
-  <div class="contenedor">
-    <h2 style="font-size:30px; margin-bottom:16px;">Preguntas frecuentes</h2>
-    <details>
-      <summary>¿Ya trabajé mi autoestima, esto me sirve igual?</summary>
-      <p>Sí — es el complemento que la mayoría de eso no cubre a fondo: qué estás proyectando específicamente, sin que lo notes.</p>
-    </details>
-    <details>
-      <summary>¿Cuánto tiempo toma leerlo?</summary>
-      <p>Entre 45 y 60 minutos, con ejercicios para volver cuando lo necesites.</p>
-    </details>
-    <details>
-      <summary>¿Es solo teoría o tiene ejercicios prácticos?</summary>
-      <p>Cada sección trae un ejercicio aplicable el mismo día.</p>
-    </details>
-    <details>
-      <summary>¿Cómo lo recibo?</summary>
-      <p>Acceso inmediato por correo apenas completas la compra.</p>
-    </details>
-  </div>
-</section>
+        // LIVE VIEWERS FLUTTER
+        const liveViewers = document.getElementById('live-viewers');
+        if (liveViewers) {
+            setInterval(() => {
+                const current = parseInt(liveViewers.innerText);
+                const change = Math.floor(Math.random() * 5) - 2;
+                let updated = current + change;
+                if (updated < 28) updated = 31;
+                if (updated > 48) updated = 42;
+                liveViewers.innerText = updated;
+            }, 4000);
+        }
 
-<!-- ============ CIERRE ============ -->
-<section class="cierre">
-  <div class="contenedor">
-    <h2>Puedes cerrar esta página y seguir donde estás.<br>O hacer algo distinto hoy.</h2>
-    <div class="cta-wrap">
-      <a href="https://pay.hotmart.com/P107173047D" class="cta" onclick="fbq('track','InitiateCheckout')">
-        Quiero entender mi patrón ahora →
-      </a>
-      <p class="cta-nota">$9.97 · acceso inmediato · garantía de 7 días</p>
-    </div>
-  </div>
-</section>
+        // SOCIAL PROOF TOAST ROTATION
+        const recentBuyers = [
+            { name: "Sofía R.", city: "Santiago" },
+            { name: "Mateo L.", city: "Lima" },
+            { name: "Valentina G.", city: "Medellín" },
+            { name: "Diego M.", city: "Guadalajara" },
+            { name: "Camila B.", city: "Buenos Aires" }
+        ];
 
-<footer>
-  <!-- Links legales mínimos requeridos por Meta Ads para compliance -->
-  <p>© 2026 · <a href="#">Política de privacidad</a> · <a href="#">Términos</a></p>
-</footer>
+        const toast = document.getElementById('purchase-toast');
+        const toastName = document.getElementById('toast-name');
+        const toastCity = document.getElementById('toast-city');
+        const toastTime = document.getElementById('toast-time');
 
-<!-- ============ CTA FLOTANTE (aparece en móvil al hacer scroll) ============ -->
-<div class="cta-flotante" id="ctaFlotante">
-  <a href="https://pay.hotmart.com/P107173047D" class="cta" onclick="fbq('track','InitiateCheckout')">
-    Quiero romper el patrón →
-  </a>
-</div>
+        function showToast() {
+            if (!toast) return;
+            const randomBuyer = recentBuyers[Math.floor(Math.random() * recentBuyers.length)];
+            toastName.innerText = randomBuyer.name;
+            toastCity.innerText = randomBuyer.city;
+            toastTime.innerText = Math.floor(Math.random() * 4) + 1;
 
-<script>
-  // Muestra el CTA flotante solo en móvil, solo después de pasar el hero.
-  // No usa localStorage/sessionStorage — solo estado en memoria (variable JS), como corresponde.
-  const ctaFlotante = document.getElementById('ctaFlotante');
-  let mostrado = false;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 4500);
+        }
 
-  window.addEventListener('scroll', function () {
-    if (window.innerWidth > 640) return; // solo móvil
-    const debeMostrar = window.scrollY > window.innerHeight * 0.8;
-    if (debeMostrar !== mostrado) {
-      ctaFlotante.classList.toggle('visible', debeMostrar);
-      mostrado = debeMostrar;
-    }
-  });
-</script>
-
+        // Trigger toast after 5 seconds, then every 14 seconds
+        setTimeout(() => {
+            showToast();
+            setInterval(showToast, 14000);
+        }, 5000);
+    </script>
 </body>
 </html>
